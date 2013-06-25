@@ -34,7 +34,12 @@ What you'll need
 ----------------
 
  - About 15 minutes
- - [macro:prereq-editor-jdk-buildtools]
+ - A favorite text editor or IDE
+ - [JDK 6][jdk] or later
+ - [Maven 3.0][mvn] or later
+
+[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[mvn]: http://maven.apache.org/download.cgi
 
 How to complete this guide
 --------------------------
@@ -134,7 +139,7 @@ Begin the process by thinking about service interactions.
 
 The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. 
 
-Beyond that the JSON representation of the resource shall be enriched with hypermedia elements, read: links. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
+Beyond that the JSON representation of the resource shall be enriched with a list of hypermedia elements in a `links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
 
     { "links" : [ { "rel" : "self",
                     "href" : "http://localhost:8080/greeting?name=World" } ],    
