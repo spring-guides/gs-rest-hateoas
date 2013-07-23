@@ -2,7 +2,7 @@
 
 # Getting Started: Building a Hypermedia Driven REST Web Service
 
-An important aspect of [REST][u-rest] is the [hypermedia][wikipedia-hateoas] one. It allows you to build services that decouple client and server to a large extend and thus allow them to be evolved independently. To achieve this, the representations returned for REST resources contain links that indicate which further resources the client should look at and interact with.
+An important aspect of [REST][u-rest] is the [hypermedia][wikipedia-hateoas] one. It allows you to build services that decouple client and server to a large extent and thus allow them to be evolved independently. To achieve this, the representations returned for REST resources contain links that indicate which further resources the client should look at and interact with.
 
 As a consequence, the design of the representations becomes an important aspect of the design of the overall service. Spring HATEOAS is a library that helps you achieving that by providing APIs to easily create links pointing to Spring MVC controllers, build up resource representations and control how they're rendered into various supported hypermedia formats such as HAL etc.
 
