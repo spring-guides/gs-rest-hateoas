@@ -31,3 +31,4 @@ There's more to building RESTful web services than is covered here. You may want
 [u-rest]: /understanding/rest
 [u-json]: /understanding/json
 [u-hateoas]: /understanding/hateoas
+
