@@ -149,12 +149,12 @@ Summary
 Congrats! You've just developed a hypermedia driven REST web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
 
 [wikipedia-hateoas]: http://en.wikipedia.org/wiki/HATEOAS
-[u-rest]: /understanding/rest
-[u-json]: /understanding/json
-[u-jsp]: /understanding/jsp
+[u-rest]: /understanding/REST
+[u-json]: /understanding/JSON
+[u-jsp]: /understanding/JSP
 [jackson]: http://wiki.fasterxml.com/JacksonHome
-[u-war]: /understanding/war
-[u-tomcat]: /understanding/tomcat
+[u-war]: /understanding/WAR
+[u-tomcat]: /understanding/Tomcat
 [u-application-context]: /understanding/application-context
 [`@Controller`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html
 [`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
