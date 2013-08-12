@@ -339,7 +339,6 @@ Congrats! You've just developed a hypermedia driven REST web service with Spring
 [wikipedia-hateoas]: http://en.wikipedia.org/wiki/HATEOAS
 [u-rest]: /understanding/REST
 [u-json]: /understanding/JSON
-[u-jsp]: /understanding/JSP
 [jackson]: http://wiki.fasterxml.com/JacksonHome
 [u-war]: /understanding/WAR
 [u-tomcat]: /understanding/Tomcat
