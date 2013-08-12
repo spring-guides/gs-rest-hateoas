@@ -146,7 +146,7 @@ This change demonstrates that the `@RequestParam` arrangement in `GreetingContro
 Summary
 -------
 
-Congrats! You've just developed a hypermedia driven REST web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
+Congrats! You've just developed a hypermedia driven REST web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of.
 
 [wikipedia-hateoas]: http://en.wikipedia.org/wiki/HATEOAS
 [u-rest]: /understanding/REST
