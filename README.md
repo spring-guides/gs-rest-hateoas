@@ -167,15 +167,15 @@ import org.springframework.hateoas.ResourceSupport;
 
 public class Greeting extends ResourceSupport {
 
-	private final String content;
+    private final String content;
 
-	public Greeting(String content) {
-		this.content = content;
-	}
+    public Greeting(String content) {
+        this.content = content;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 }
 ```
 
@@ -207,18 +207,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class GreetingController {
 
-	private static final String TEMPLATE = "Hello, %s!";
+    private static final String TEMPLATE = "Hello, %s!";
 
-	@RequestMapping("/greeting")
-	@ResponseBody
-	public HttpEntity<Greeting> greeting(
-			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
+    @RequestMapping("/greeting")
+    @ResponseBody
+    public HttpEntity<Greeting> greeting(
+            @RequestParam(value = "name", required = false, defaultValue = "World") String name) {
 
-		Greeting greeting = new Greeting(String.format(TEMPLATE, name));
-		greeting.add(linkTo(methodOn(GreetingController.class).greeting(name)).withSelfRel());
+        Greeting greeting = new Greeting(String.format(TEMPLATE, name));
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting(name)).withSelfRel());
 
-		return new ResponseEntity<Greeting>(greeting, HttpStatus.OK);
-	}
+        return new ResponseEntity<Greeting>(greeting, HttpStatus.OK);
+    }
 }
 ```
 
@@ -298,7 +298,7 @@ Now run the following command to produce a single executable JAR file containing
 $ mvn package
 ```
 
-[spring-boot-maven-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-maven-plugin
+[spring-boot-maven-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-tools/spring-boot-maven-plugin
 
 > **Note:** The procedure above will create a runnable JAR. You can also opt to [build a classic WAR file](/guides/gs/convert-jar-to-war/) instead.
 
