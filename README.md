@@ -1,12 +1,14 @@
 
-An important aspect of [REST][u-rest] is the [hypermedia][wikipedia-hateoas] one. It allows you to build services that decouple client and server to a large extent and thus allow them to be evolved independently. To achieve this, the representations returned for REST resources contain links that indicate which further resources the client should look at and interact with.
+This guide walks you through the process of creating a "hello world" [Hypermedia Driven REST web service][u-rest] with Spring.
 
-As a consequence, the design of the representations becomes an important aspect of the design of the overall service. Spring HATEOAS is a library that helps you achieving that by providing APIs to easily create links pointing to Spring MVC controllers, build up resource representations and control how they're rendered into various supported hypermedia formats such as HAL etc.
+[Hypermedia][wikipedia-hateoas] is an important aspect of [REST][u-rest]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain links that indicate which further resources the client should look at and interact with. Thus the design of the representations is crucial to the design of the overall service. 
 
 What you'll build
 -----------------
 
-This guide walks you through creating a "hello world" [Hypermedia Driven REST web service][u-rest] with Spring. The service will accept HTTP GET requests at:
+You'll build a hypermedia-driven REST service with Spring HATEOAS, a library of APIs that you can use to easily create links pointing to Spring MVC controllers, build up resource representations, and control how they're rendered into supported hypermedia formats such as HAL.
+
+The service will accept HTTP GET requests at:
 
     http://localhost:8080/greeting
 
@@ -16,7 +18,7 @@ and respond with a [JSON][u-json] representation of a greeting enriched with the
                     "href" : "http://localhost:8080/greeting?name=World" } ],    
       "content" : "Hello, World!" }
 
-As the response already indicates you can customize the greeting with an optional `name` parameter in the query string:
+The response already indicates you can customize the greeting with an optional `name` parameter in the query string:
 
     http://localhost:8080/greeting?name=User
 
@@ -147,16 +149,16 @@ Begin the process by thinking about service interactions.
 
 The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. 
 
-Beyond that the JSON representation of the resource shall be enriched with a list of hypermedia elements in a `links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
+Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
 
     { "links" : [ { "rel" : "self",
                     "href" : "http://localhost:8080/greeting?name=World" } ],    
       "content" : "Hello, World!" }
 
-The `content` is the textual representation of the greeting. The `links` element contains a list of links, in our case exactly one with the relation type of `rel` and the `href` attribute pointing to the resource just accessed.
+The `content` is the textual representation of the greeting. The `links` element contains a list of links, in this case exactly one with the relation type of `rel` and the `href` attribute pointing to the resource just accessed.
 
-To model the greeting representation, you create a _resource representation class_. 
-As the `links` property is a fundamental property of the representation model Spring HATEOAS ships with a base class `ResourceSupport` that allows adding instances of `Link` and makes sure they're getting rendered as shown above.
+To model the greeting representation, you create a resource representation class. 
+As the `links` property is a fundamental property of the representation model, Spring HATEOAS ships with a base class `ResourceSupport` that allows you to add instances of `Link` and ensures that they are rendered as shown above.
 
 So you simply create a plain old java object extending `ResourceSupport` and add the field and accessor for the content as well as a constructor:
 
@@ -189,7 +191,7 @@ Next you create the resource controller that will serve these greetings.
 Create a resource controller
 ------------------------------
 
-In Spring's approach to building RESTful web services, HTTP requests are handled by a _controller_. These components are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
+In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. The components are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
 `src/main/java/hello/GreetingController.java`
 ```java
@@ -223,7 +225,7 @@ public class GreetingController {
 }
 ```
 
-This controller is concise and simple, but there's plenty going on under the hood. Let's break it down step by step.
+This controller is concise and simple, but there's plenty going on. Let's break it down step by step.
 
 The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
 
@@ -231,11 +233,11 @@ The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are m
 
 `@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`; if it is absent in the request, the `defaultValue` of "World" is used.
 
-The [`@ResponseBody`][] annotation on the method will cause Spring MVC to render the returned `HttpEntity` and its payload, the `Greeting`, directly to the response.
+The [`@ResponseBody`][] annotation on the `greeting` method will cause Spring MVC to render the returned `HttpEntity` and its payload, the `Greeting`, directly to the response.
 
-The most interesting part of the method implementation is how we create the link pointing to the controller method and how we add it to the representation model. Both `linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that allow you to fake a method invocation on the controller. The `LinkBuilder` returned will have inspected the controller method's mapping annotation to build up exactly the URI the method is mapped to.
+The most interesting part of the method implementation is how you create the link pointing to the controller method and how you add it to the representation model. Both `linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that allow you to fake a method invocation on the controller. The `LinkBuilder` returned will have inspected the controller method's mapping annotation to build up exactly the URI the method is mapped to.
 
-The call to `withSelfRel()` finally creates a `Link` instances we add to the `Greeting` representation model.
+The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting` representation model.
 
 
 Make the application executable
@@ -243,7 +245,7 @@ Make the application executable
 
 Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
-### Create a main class
+### Create an Application class
 
 `src/main/java/hello/Application.java`
 ```java
@@ -269,6 +271,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
+### Build an executable JAR
 Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
 Add the following configuration to your existing Maven POM:
@@ -335,7 +338,7 @@ This change demonstrates that the `@RequestParam` arrangement in `GreetingContro
 Summary
 -------
 
-Congrats! You've just developed a hypermedia driven REST web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of.
+Congratulations! You've just developed a hypermedia-driven RESTful web service with Spring HATEOAS. 
 
 [wikipedia-hateoas]: http://en.wikipedia.org/wiki/HATEOAS
 [u-rest]: /understanding/REST
