@@ -47,9 +47,7 @@ Set up the project
 
 <@create_directory_structure_hello/>
 
-### Create a Gradle build file
-
-    <@snippet path="build.gradle" prefix="initial"/>
+<@create_both_builds/>
 
 <@bootstrap_starter_pom_disclaimer/>
 
@@ -122,7 +120,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
 <@build_an_executable_jar_subhead/>
-<@build_an_executable_jar_with_gradle/>
+<@build_an_executable_jar_with_both/>
 
 <@run_the_application_with_gradle module="service"/>
 
