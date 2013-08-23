@@ -296,11 +296,13 @@ $ java -jar build/libs/gs-rest-hateoas-0.1.0.jar
 
 Run the service
 -------------------
-Run your service at the command line:
+If you are using Gradle, you can run your service at the command line this way:
 
 ```sh
 $ ./gradlew clean build && java -jar build/libs/gs-rest-hateoas-0.1.0.jar
 ```
+
+If you are using Maven, just type `mvn spring-boot:run`.
 
 
 Logging output is displayed. The service should be up and running within a few seconds.
