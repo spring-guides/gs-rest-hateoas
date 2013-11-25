@@ -46,7 +46,6 @@ The `name` parameter value overrides the default value of "World" and is reflect
 
 include::https://raw.github.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-:jump_ahead: Create a resource representation class
 include::https://raw.github.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
