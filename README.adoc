@@ -18,7 +18,7 @@ projects: [spring-hateoas]
 :source-highlighter: prettify
 :project_id: gs-rest-hateoas
 
-This guide walks you through the process of creating a "hello world" link:/understanding/REST[Hypermedia Driven REST web service] with Spring.
+This guide walks you through the process of creating a "hello world" link:/understanding/HATEOAS[Hypermedia Driven REST web service] with Spring.
 
 {wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain links that indicate which further resources the client should look at and interact with. Thus the design of the representations is crucial to the design of the overall service. 
 
