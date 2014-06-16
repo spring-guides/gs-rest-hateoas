@@ -32,9 +32,17 @@ The service will accept HTTP GET requests at:
 
 and respond with a link:/understanding/JSON[JSON] representation of a greeting enriched with the simplest possible hypermedia element, a link pointing to the resource itself:
 
-    { "links" : [ { "rel" : "self",
-                    "href" : "http://localhost:8080/greeting?name=World" } ],    
-      "content" : "Hello, World!" }
+[source,javascript]
+----
+{
+  "content":"Hello, World!",
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/greeting?name=World"
+    }
+  }
+}
+----
 
 The response already indicates you can customize the greeting with an optional `name` parameter in the query string:
 
@@ -42,10 +50,17 @@ The response already indicates you can customize the greeting with an optional `
 
 The `name` parameter value overrides the default value of "World" and is reflected in the response:
 
-    { "links" : [ { "rel" : "self",
-                    "href" : "http://localhost:8080/greeting?name=User" } ],    
-      "content" : "Hello, User!" }
-
+[source,javascript]
+----
+{
+  "content":"Hello, User!",
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/greeting?name=User"
+    }
+  }
+}
+----
 
 == What you'll need
 
@@ -81,15 +96,23 @@ Begin the process by thinking about service interactions.
 
 The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. 
 
-Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
+Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `_links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
 
-    { "links" : [ { "rel" : "self",
-                    "href" : "http://localhost:8080/greeting?name=World" } ],    
-      "content" : "Hello, World!" }
+[source,javascript]
+----
+{
+  "content":"Hello, World!",
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/greeting?name=World"
+    }
+  }
+}
+----
 
-The `content` is the textual representation of the greeting. The `links` element contains a list of links, in this case exactly one with the relation type of `rel` and the `href` attribute pointing to the resource just accessed.
+The `content` is the textual representation of the greeting. The `_links` element contains a list of links, in this case exactly one with the relation type of `rel` and the `href` attribute pointing to the resource just accessed.
 
-To model the greeting representation, you create a resource representation class. As the `links` property is a fundamental property of the representation model, Spring HATEOAS ships with a base class `ResourceSupport` that allows you to add instances of `Link` and ensures that they are rendered as shown above.
+To model the greeting representation, you create a resource representation class. As the `_links` property is a fundamental property of the representation model, Spring HATEOAS ships with a base class `ResourceSupport` that allows you to add instances of `Link` and ensures that they are rendered as shown above.
 
 So you simply create a plain old java object extending `ResourceSupport` and add the field and accessor for the content as well as a constructor:
 
@@ -99,6 +122,8 @@ So you simply create a plain old java object extending `ResourceSupport` and add
 include::complete/src/main/java/hello/Greeting.java[]
 ----
 
+* @JsonCreator - signal on how Jackson can create an instance of this POJO
+* @JsonProperty - clearly marks what field Jackson should put this constructor argument into
 
 NOTE: As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
 
@@ -160,15 +185,31 @@ Logging output is displayed. The service should be up and running within a few s
 
 Now that the service is up, visit http://localhost:8080/greeting, where you see:
 
-    { "links" : [ { "rel" : "self",
-                    "href" : "http://localhost:8080/greeting?name=World" } ],    
-      "content" : "Hello, World!" }
+[source,javascript]
+----
+{
+  "content":"Hello, World!",
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/greeting?name=World"
+    }
+  }
+}
+----
 
-Provide a `name` query string parameter with http://localhost:8080/greeting?name=User. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello User!" and the `href` attribute of the `self` link reflects that change as well:
+Provide a `name` query string parameter with http://localhost:8080/greeting?name=User. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello, User!" and the `href` attribute of the `self` link reflects that change as well:
 
-    { "links" : [ { "rel" : "self",
-                    "href" : "http://localhost:8080/greeting?name=User" } ],    
-      "content" : "Hello, User!" }
+[source,javascript]
+----
+{
+  "content":"Hello, User!",
+  "_links":{
+    "self":{
+      "href":"http://localhost:8080/greeting?name=User"
+    }
+  }
+}
+----
 
 This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is working as expected. The `name` parameter has been given a default value of "World", but can always be explicitly overridden through the query string.
 
