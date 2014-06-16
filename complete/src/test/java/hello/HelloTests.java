@@ -1,3 +1,4 @@
+
 package hello;
 
 import static org.junit.Assert.assertEquals;
@@ -11,8 +12,6 @@ import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class HelloTests {
 
 	@Value("${local.server.port}")
 	private int port;
-	
+
 	@Autowired
 	private HttpMessageConverters converters;
 
@@ -38,13 +37,10 @@ public class HelloTests {
 	public void envEndpointNotHidden() {
 		TestRestTemplate template = new TestRestTemplate();
 		template.setMessageConverters(converters.getConverters());
-		ResponseEntity<Resource<String>> response = template.exchange(
-				"http://localhost:" + this.port + "/greeting", HttpMethod.GET,
-				new HttpEntity<Void>((Void) null),
-				new ParameterizedTypeReference<Resource<String>>() {
-				});
+		ResponseEntity<Greeting> response = template.exchange("http://localhost:"
+				+ this.port + "/greeting", HttpMethod.GET, new HttpEntity<Void>(
+				(Void) null), Greeting.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNotNull(response.getBody().getContent());
 	}
-
 }
