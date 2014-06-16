@@ -3,14 +3,14 @@ cd $(dirname $0)
 
 cd ../complete
 
-mvn clean package
+mvn clean package test
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
 fi
 rm -rf target
 
-./gradlew build
+./gradlew build test
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret

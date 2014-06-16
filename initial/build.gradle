@@ -29,7 +29,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("org.springframework.hateoas:spring-hateoas")
-    testCompile("junit:junit")
+    compile("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 task wrapper(type: Wrapper) {
