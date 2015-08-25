@@ -208,3 +208,6 @@ This change demonstrates that the `@RequestParam` arrangement in `GreetingContro
 
 Congratulations! You've just developed a hypermedia-driven RESTful web service with Spring HATEOAS. 
 
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
