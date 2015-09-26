@@ -112,7 +112,7 @@ So you simply create a plain old java object extending `ResourceSupport` and add
 include::complete/src/main/java/hello/Greeting.java[]
 ----
 
-* @JsonCreator - signal on how Jackson can create an instance of this POJO
+* @JsonCreator - signal on how Jackson can create an instance of this link:/understanding/POJO[POJO]
 * @JsonProperty - clearly marks what field Jackson should put this constructor argument into
 
 NOTE: As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
