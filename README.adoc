@@ -20,7 +20,7 @@ projects: [spring-hateoas]
 
 This guide walks you through the process of creating a "hello world" link:/understanding/HATEOAS[Hypermedia Driven REST web service] with Spring.
 
-{wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain links that indicate which further resources the client should look at and interact with. Thus the design of the representations is crucial to the design of the overall service. 
+{wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service. 
 
 == What you'll build
 
@@ -142,6 +142,8 @@ The {ResponseBody}[`@ResponseBody`] annotation on the `greeting` method will cau
 
 The most interesting part of the method implementation is how you create the link pointing to the controller method and how you add it to the representation model. Both `linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that allow you to fake a method invocation on the controller. The `LinkBuilder` returned will have inspected the controller method's mapping annotation to build up exactly the URI the method is mapped to.
 
+NOTE: Spring HATEOAS respects various *X-FORWARDED-* headers. If you put a Spring HATEOAS service behind a proxy and properly configure it with *X-FORWARDED-HOST* headers, the resulting links will be properly formatted.
+
 The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting` representation model.
 
 
@@ -161,7 +163,7 @@ include::complete/src/main/java/hello/Application.java[]
 - `@Configuration` tags the class as a source of bean definitions for the application context.
 - `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
 - Normally you would add `@EnableWebMvc` for a Spring MVC app, but Spring Boot adds it automatically when it sees **spring-webmvc** on the classpath. This flags the application as a web application and activates key behaviors such as setting up a `DispatcherServlet`.
-- `@ComponentScan` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `HelloController`.
+- `@ComponentScan` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `GreetingController`.
 
 The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? No **web.xml** file either. This web application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
 
