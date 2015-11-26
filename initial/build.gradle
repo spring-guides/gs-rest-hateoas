@@ -25,10 +25,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("com.fasterxml.jackson.core:jackson-databind")
-    compile("org.springframework.hateoas:spring-hateoas")
-    compile("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
     testCompile("com.jayway.jsonpath:json-path")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
