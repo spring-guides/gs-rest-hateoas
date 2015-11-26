@@ -29,7 +29,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("org.springframework.hateoas:spring-hateoas")
     compile("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
-    compile("com.jayway.jsonpath:json-path:0.9.1")
+    testCompile("com.jayway.jsonpath:json-path")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
