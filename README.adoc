@@ -7,6 +7,7 @@ projects: [spring-hateoas]
 :Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :jackson: http://wiki.fasterxml.com/JacksonHome
 :Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
+:RestController: http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestController.html
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
@@ -20,7 +21,7 @@ projects: [spring-hateoas]
 
 This guide walks you through the process of creating a "hello world" link:/understanding/HATEOAS[Hypermedia Driven REST web service] with Spring.
 
-{wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service. 
+{wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service.
 
 == What you'll build
 
@@ -120,9 +121,9 @@ NOTE: As you'll see in steps below, Spring will use the _Jackson_ JSON library t
 Next you create the resource controller that will serve these greetings.
 
 
-== Create a resource controller
+== Create a RestController
 
-In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. The components are easily identified by the {Controller}[`@Controller`] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
+In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. The components are easily identified by the {RestController}[`@RestController`] annotation, which combines the {Controller}[`@Controller`] and {ResponseBody}[`@ResponseBody`] annotations. The `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
 `src/main/java/hello/GreetingController.java`
 [source,java]
@@ -134,11 +135,11 @@ This controller is concise and simple, but there's plenty going on. Let's break 
 
 The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
 
-NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this mapping.
+NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(path="/greeting", method=RequestMethod.GET)` to narrow this mapping. In that case you also want to `import org.springframework.web.bind.annotation.RequestMethod;`.
 
 `@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`; if it is absent in the request, the `defaultValue` of "World" is used.
 
-The {ResponseBody}[`@ResponseBody`] annotation on the `greeting` method will cause Spring MVC to render the returned `HttpEntity` and its payload, the `Greeting`, directly to the response.
+Because the `@RestController` annotation is present on the class, an implicit {ResponseBody}[`@ResponseBody`] annotation is being added onto the `greeting` method. This causes Spring MVC to render the returned `HttpEntity` and its payload, the `Greeting`, directly to the response.
 
 The most interesting part of the method implementation is how you create the link pointing to the controller method and how you add it to the representation model. Both `linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that allow you to fake a method invocation on the controller. The `LinkBuilder` returned will have inspected the controller method's mapping annotation to build up exactly the URI the method is mapped to.
 
