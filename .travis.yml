@@ -2,8 +2,6 @@ sudo: false
 language: java
 jdk:
 - oraclejdk8
-script:
-- test/run.sh
 deploy:
   provider: releases
   api_key: "9dcf8d16ff7af8a8b0b3d5743ac0fcb810d38104"
