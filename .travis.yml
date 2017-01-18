@@ -4,7 +4,7 @@ jdk:
 - oraclejdk8
 deploy:
   provider: releases
-  api_key: "1f1059df62fd7132d3ad736d1f6b01a0d531a4a4"
+  api_key: "45769e11cb443f01148ace5b949bb6b9b0b7a743"
   file: "target/gs-rest-hateoas-0.1.0.jar"
   skip_cleanup: true
   on:
