@@ -1,0 +1,34 @@
+{
+  "name": "gs-rest-hateoas",
+  "description": "test",
+  "scripts": {
+  },
+  "env": {
+    "CLOUDAMQP_URL": {
+      "required": true
+    },
+    "JAVA_OPTS": {
+      "required": true
+    },
+    "MONGOLAB_URI": {
+      "required": true
+    },
+    "SEARCHBOX_SSL_URL": {
+      "required": true
+    },
+    "SEARCHBOX_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "searchbox",
+    "cloudamqp",
+    "heroku-postgresql",
+    "mongolab"
+  ],
+  "buildpacks": [
+
+  ]
+}
