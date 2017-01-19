@@ -4,9 +4,8 @@ jdk:
 - oraclejdk8
 deploy:
   provider: releases
-  api_key: "45769e11cb443f01148ace5b949bb6b9b0b7a743"
-  file: "target/gs-rest-hateoas-0.1.0.jar"
-  skip_cleanup: true
+  api_key:
+    secure: gQM+GDK+vabv8hQWAuqPIRWaKKKxoGOdbWzkYKc7FzBrGgkDDy7o//pwgtfyht0pRLYdm7DVg7nHtm92qZ27fWXlUkxHzPI1Hr0Pkq6Hw/lQ8TNOqTEOeQXX9c0xho6RbHYDK9vCDxULgUTyk549IprjSqA87GrXnCLMA63+p83/ouLUWXaN6IFQWgAFAA1jAPjsHDCqHYvxiLGqbmaADucAL1z3xy8vmEfcHq0OT65Kb1FJ2oUtDx5U5vD4k4P9rIx21LXDlmsaq57rADzeNE57Acnp0QH7CgImzF4in6xNQys4/Xu9ccaMg2nwqnGFCskbHpL4KaIm2vEoV5b0azQFAP5TrVG5PY4WjLc7XHvUBgmFuWDb3nu08/nryHKFiTwo5WtUneq47iMPq8j0+VJcjjqkUiI4dewZmhiWSuEoWp9Z4eycBe/BpMN+1Sr54zz/8FpNboXS9CkK8w3o0LcUoWnz6IincATqPW64UIY6NlAtk44Qh2q2UMiC1Kab0ps9vZhWeg79xMY22ZuBWWvb1Z1EjD31CR7dRZsh0lEqQ/g9iP1BxGCQz/ciYczE1qKN3AWinRThYh6ZEYbihPInupT4POC/RYe1gXX5Qi0EsYS8JS6/D59mJ6nVQKfkfw8eeU+mwbNLq5fJ5FV/gPQ7JEQeB5wTzB7sRfR40q8=
+  file: target/gs-rest-hateoas-0.1.0.jar
   on:
-    tags: true
-
+    repo: sandcast/gs-rest-hateoas
