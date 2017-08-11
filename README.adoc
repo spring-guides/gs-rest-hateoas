@@ -85,7 +85,7 @@ Now that you've set up the project and build system, you can create your web ser
 
 Begin the process by thinking about service interactions.
 
-The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. 
+The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting.
 
 Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `_links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
 
@@ -202,8 +202,27 @@ This change demonstrates that the `@RequestParam` arrangement in `GreetingContro
 
 == Summary
 
-Congratulations! You've just developed a hypermedia-driven RESTful web service with Spring HATEOAS. 
+Congratulations! You've just developed a hypermedia-driven RESTful web service with Spring HATEOAS.
 
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/rest-service/[Building a RESTful Web Service]
+* https://spring.io/guides/gs/accessing-gemfire-data-rest/[Accessing GemFire Data with REST]
+* https://spring.io/guides/gs/accessing-mongodb-data-rest/[Accessing MongoDB Data with REST]
+* https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
+* https://spring.io/guides/gs/accessing-data-rest/[Accessing JPA Data with REST]
+* https://spring.io/guides/gs/accessing-neo4j-data-rest/[Accessing Neo4j Data with REST]
+* https://spring.io/guides/gs/consuming-rest/[Consuming a RESTful Web Service]
+* https://spring.io/guides/gs/consuming-rest-angularjs/[Consuming a RESTful Web Service with AngularJS]
+* https://spring.io/guides/gs/consuming-rest-jquery/[Consuming a RESTful Web Service with jQuery]
+* https://spring.io/guides/gs/consuming-rest-restjs/[Consuming a RESTful Web Service with rest.js]
+* https://spring.io/guides/gs/securing-web/[Securing a Web Application]
+* https://spring.io/guides/tutorials/bookmarks/[Building REST services with Spring]
+* https://spring.io/guides/tutorials/react-and-spring-data-rest/[React.js and Spring Data REST]
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/testing-restdocs/[Creating API Documentation with Restdocs]
+* https://spring.io/guides/gs/rest-service-cors/[Enabling Cross Origin Requests for a RESTful Web Service]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
-
