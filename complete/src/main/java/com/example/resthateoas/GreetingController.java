@@ -1,4 +1,4 @@
-package hello;
+package com.example.resthateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 

@@ -1,4 +1,4 @@
-package hello;
+package com.example.resthateoas;
 
 import org.springframework.hateoas.RepresentationModel;
 
