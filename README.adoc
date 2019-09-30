@@ -15,21 +15,30 @@
 :source-highlighter: prettify
 :project_id: gs-rest-hateoas
 
-This guide walks you through the process of creating a "hello world" https://en.wikipedia.org/wiki/HATEOAS[Hypermedia Driven REST web service] with Spring.
+This guide walks you through the process of creating a "`Hello, World`" Hypermedia-driven
+REST web service with Spring.
 
-{wikipedia-hateoas}[Hypermedia] is an important aspect of https://en.wikipedia.org/wiki/Representational_state_transfer[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service.
+{wikipedia-hateoas}[Hypermedia] is an important aspect of REST. It lets you build services
+that decouple client and server to a large extent and let them evolve independently. The
+representations returned for REST resources contain not only data but also links to
+related resources. Thus, the design of the representations is crucial to the design of the
+overall service.
 
-== What you'll build
+== What You Will Build
 
-You'll build a hypermedia-driven REST service with Spring HATEOAS, a library of APIs that you can use to easily create links pointing to Spring MVC controllers, build up resource representations, and control how they're rendered into supported hypermedia formats such as HAL.
+You will build a hypermedia-driven REST service with Spring HATEOAS: a library of APIs
+that you can use to create links that point to Spring MVC controllers, build up resource
+representations, and control how they are rendered into supported hypermedia formats (such
+as HAL).
 
-The service will accept HTTP GET requests at:
+The service will accept HTTP GET requests at `http://localhost:8080/greeting`.
 
-    http://localhost:8080/greeting
+It will respond with a JSON representation of a greeting that is enriched with the
+simplest possible hypermedia element, a link that points to the resource itself. The
+following listing shows the output:
 
-and respond with a https://json.org/[JSON] representation of a greeting enriched with the simplest possible hypermedia element, a link pointing to the resource itself:
-
-[source,java,tabsize=2script]
+====
+[source,javascript]
 ----
 {
   "content":"Hello, World!",
@@ -40,14 +49,23 @@ and respond with a https://json.org/[JSON] representation of a greeting enriched
   }
 }
 ----
+====
 
-The response already indicates you can customize the greeting with an optional `name` parameter in the query string:
+The response already indicates that you can customize the greeting with an optional `name`
+parameter in the query string, as the following listing shows:
 
-    http://localhost:8080/greeting?name=User
+====
+[source,text]
+----
+http://localhost:8080/greeting?name=User
+----
+====
 
-The `name` parameter value overrides the default value of "World" and is reflected in the response:
+The `name` parameter value overrides the default value of `World` and is reflected in the
+response, as the following listing shows:
 
-[source,java,tabsize=2script]
+====
+[source,javascript]
 ----
 {
   "content":"Hello, User!",
@@ -58,34 +76,112 @@ The `name` parameter value overrides the default value of "World" and is reflect
   }
 }
 ----
+====
 
-== What you'll need
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+[[scratch]]
+== Starting with Spring Initializr
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the setup for you. This example needs the Spring HATEOAS
+dependency. The following image shows the Initializr set up for this sample project:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+image::images/initializr.png[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `rest-hateoas` as the Group
+and Artifact, respectively. You will use those values throughout the rest of this sample.
 
+The following listing shows the `pom.xml` file that is created when you choose Maven:
+
+====
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+====
+
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
+
+====
+[source,text]
+----
+include::initial/build.gradle[]
+----
+====
+
+=== Adding a JSON Library
+
+Because you will use JSON to send and receive information, you need a JSON library. In
+this guide, you will use the Jayway JsonPath library.
+
+To include the library in a Maven build, add the following dependency to your `pom.xml`
+file:
+
+====
+[source,xml]
+----
+<dependency>
+  <groupId>com.jayway.jsonpath</groupId>
+  <artifactId>json-path</artifactId>
+  <scope>test</scope>
+</dependency>
+----
+====
+
+The following listing shows the finished `pom.xml` file:
+
+====
+[source,xml]
+----
+include::complete/pom.xml[]
+----
+====
+
+To include the libary in a Gradle build, add the following dependency to your
+`build.gradle` file:
+
+====
+[source,text]
+----
+testCompile 'com.jayway.jsonpath:json-path'
+----
+====
+
+The following listing shows the finished `build.gradle` file:
+
+====
+[source,text]
+----
+include::complete/build.gradle[]
+----
+====
 
 [[initial]]
-== Create a resource representation class
+== Create a Resource Representation Class
 
-Now that you've set up the project and build system, you can create your web service.
+Now that you have set up the project and build system, you can create your web service.
 
 Begin the process by thinking about service interactions.
 
-The service will expose a resource at `/greeting` to handle `GET` requests, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting.
+The service will expose a resource at `/greeting` to handle `GET` requests, optionally
+with a `name` parameter in the query string. The `GET` request should return a `200 OK`
+response with JSON in the body to represent a greeting.
 
-Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `_links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
+Beyond that, the JSON representation of the resource will be enriched with a list of
+hypermedia elements in a `_links` property. The most rudimentary form of this is a link
+that points to the resource itself. The representation should resemble the following
+listing:
 
-[source,java,tabsize=2script]
+====
+[source,javascript]
 ----
 {
   "content":"Hello, World!",
@@ -96,79 +192,103 @@ Beyond that, the JSON representation of the resource will be enriched with a lis
   }
 }
 ----
+====
 
-The `content` is the textual representation of the greeting. The `_links` element contains a list of links, in this case exactly one with the relation type of `rel` and the `href` attribute pointing to the resource just accessed.
+The `content` is the textual representation of the greeting. The `_links` element contains
+a list of links (in this case, exactly one with the relation type of `rel` and the `href`
+attribute pointing to the resource that was accessed).
 
-To model the greeting representation, you create a resource representation class. As the `_links` property is a fundamental property of the representation model, Spring HATEOAS ships with a base class `ResourceSupport` that allows you to add instances of `Link` and ensures that they are rendered as shown above.
+To model the greeting representation, create a resource representation class. As the
+`_links` property is a fundamental property of the representation model, Spring HATEOAS
+ships with a base class (called `ResourceSupport`) that lets you add instances of `Link`
+and ensures that they are rendered as shown earlier.
 
-So you simply create a plain old java object extending `ResourceSupport` and add the field and accessor for the content as well as a constructor:
+Create a plain old java object that extends `ResourceSupport` and adds the field and
+accessor for the content as well as a constructor, as the following listing (from
+`src/main/java/com/example/resthateoas/Greeting.java`) shows:
 
-`src/main/java/hello/Greeting.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Greeting.java[]
+include::complete/src/main/java/com/example/resthateoas/Greeting.java[]
 ----
+====
 
-* @JsonCreator - signal on how Jackson can create an instance of this https://en.wikipedia.org/wiki/Plain_old_Java_object[POJO]
-* @JsonProperty - clearly marks what field Jackson should put this constructor argument into
+* @JsonCreator: Signals how Jackson can create an instance of this POJO.
+* @JsonProperty: Marks the field into which Jackson should put this constructor argument.
 
-NOTE: As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
+NOTE: As you will see in later in this guide, Spring will use the Jackson JSON library to
+automatically marshal instances of type `Greeting` into JSON.
 
-Next you create the resource controller that will serve these greetings.
+Next, create the resource controller that will serve these greetings.
 
+== Create a REST Controller
 
-== Create a RestController
+In Spring's approach to building RESTful web services, HTTP requests are handled by a
+controller. The components are identified by the {RestController}[`@RestController`]
+annotation, which combines the {Controller}[`@Controller`] and
+{ResponseBody}[`@ResponseBody`] annotations. The following `GreetingController` (from
+`src/main/java/com/example/resthateoas/GreetingController.java`) handles `GET` requests
+for `/greeting` by returning a new instance of the `Greeting` class:
 
-In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. The components are easily identified by the {RestController}[`@RestController`] annotation, which combines the {Controller}[`@Controller`] and {ResponseBody}[`@ResponseBody`] annotations. The `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
-
-`src/main/java/hello/GreetingController.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/GreetingController.java[]
+include::complete/src/main/java/com/example/resthateoas/GreetingController.java[]
 ----
+====
 
-This controller is concise and simple, but there's plenty going on. Let's break it down step by step.
+This controller is concise and simple, but there is plenty going on. We break it down step
+by step.
 
-The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
+The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to
+the `greeting()` method.
 
-NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(path="/greeting", method=RequestMethod.GET)` to narrow this mapping. In that case you also want to `import org.springframework.web.bind.annotation.RequestMethod;`.
+NOTE: The preceding example does not specify `GET` versus `PUT`, `POST`, and so forth,
+because, by default, `@RequestMapping` maps all HTTP operations. Use
+`@RequestMapping(path="/greeting", method=RequestMethod.GET)` to narrow this mapping. In
+that case, you also want to
+`import org.springframework.web.bind.annotation.RequestMethod;`.
 
-`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`; if it is absent in the request, the `defaultValue` of "World" is used.
+`@RequestParam` binds the value of the `name` query string parameter into the `name`
+parameter of the `greeting()` method. This query string parameter is not `required`. If it
+is absent in the request, the `defaultValue` of `World` is used.
 
-Because the `@RestController` annotation is present on the class, an implicit {ResponseBody}[`@ResponseBody`] annotation is being added onto the `greeting` method. This causes Spring MVC to render the returned `HttpEntity` and its payload, the `Greeting`, directly to the response.
+Because the `@RestController` annotation is present on the class, an implicit
+{ResponseBody}[`@ResponseBody`] annotation is added to the `greeting` method. This causes
+Spring MVC to render the returned `HttpEntity` and its payload (the `Greeting`) directly
+to the response.
 
-The most interesting part of the method implementation is how you create the link pointing to the controller method and how you add it to the representation model. Both `linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that allow you to fake a method invocation on the controller. The `LinkBuilder` returned will have inspected the controller method's mapping annotation to build up exactly the URI the method is mapped to.
+The most interesting part of the method implementation is how you create the link that
+points to the controller method and how you add it to the representation model. Both
+`linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that let you
+fake a method invocation on the controller. The returned `LinkBuilder` will have inspected
+the controller method's mapping annotation to build up exactly the URI to which the method
+is mapped.
 
-NOTE: Spring HATEOAS respects various *X-FORWARDED-* headers. If you put a Spring HATEOAS service behind a proxy and properly configure it with *X-FORWARDED-HOST* headers, the resulting links will be properly formatted.
+NOTE: Spring HATEOAS respects various `X-FORWARDED-` headers. If you put a Spring HATEOAS
+service behind a proxy and properly configure it with `X-FORWARDED-HOST` headers, the
+resulting links will be properly formatted.
 
-The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting` representation model.
+The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting`
+representation model.
 
-
-== Make the application executable
-
-Although it is possible to package this service as a traditional _web application archive_ or https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the https://tomcat.apache.org/[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
-
-
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
-----
-include::complete/src/main/java/hello/Application.java[]
-----
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
+== Test the Service
 
-== Test the service
+Now that the service is up, visit http://localhost:8080/greeting, where you should see the
+following content:
 
-Now that the service is up, visit http://localhost:8080/greeting, where you see:
-
-[source,java,tabsize=2script]
+====
+[source,javascript]
 ----
 {
   "content":"Hello, World!",
@@ -179,10 +299,15 @@ Now that the service is up, visit http://localhost:8080/greeting, where you see:
   }
 }
 ----
+====
 
-Provide a `name` query string parameter with http://localhost:8080/greeting?name=User. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello, User!" and the `href` attribute of the `self` link reflects that change as well:
+Provide a `name` query string parameter by visiting the following URL:
+`http://localhost:8080/greeting?name=User`. Notice how the value of the `content`
+attribute changes from `Hello, World!` to `Hello, User!` and the `href` attribute of the
+`self` link reflects that change as well, as the following listing shows:
 
-[source,java,tabsize=2script]
+====
+[source,javascript]
 ----
 {
   "content":"Hello, User!",
@@ -193,12 +318,16 @@ Provide a `name` query string parameter with http://localhost:8080/greeting?name
   }
 }
 ----
+====
 
-This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is working as expected. The `name` parameter has been given a default value of "World", but can always be explicitly overridden through the query string.
+This change demonstrates that the `@RequestParam` arrangement in `GreetingController`
+works as expected. The `name` parameter has been given a default value of `World` but can
+always be explicitly overridden through the query string.
 
 == Summary
 
-Congratulations! You've just developed a hypermedia-driven RESTful web service with Spring HATEOAS.
+Congratulations! You have just developed a hypermedia-driven RESTful web service with
+Spring HATEOAS.
 
 == See Also
 

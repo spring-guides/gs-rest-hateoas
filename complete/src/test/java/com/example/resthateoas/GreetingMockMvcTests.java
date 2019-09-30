@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hello;
+package com.example.resthateoas;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
