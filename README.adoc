@@ -131,7 +131,7 @@ This controller is concise and simple, but there's plenty going on. Let's break 
 
 The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
 
-NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(path="/greeting", method=RequestMethod.GET)` to narrow this mapping. In that case you also want to `import org.springframework.web.bind.annotation.RequestMethod;`.
+NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@GetMapping("/greeting")` to narrow this mapping. In that case you also want to `import org.springframework.web.bind.annotation.GetMapping;`.
 
 `@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`; if it is absent in the request, the `defaultValue` of "World" is used.
 
