@@ -246,9 +246,7 @@ the `greeting()` method.
 
 NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@GetMapping("/greeting")` to narrow this mapping. In that case you also want to `import org.springframework.web.bind.annotation.GetMapping;`.
 
-`@RequestParam` binds the value of the `name` query string parameter into the `name`
-parameter of the `greeting()` method. This query string parameter is not `required`. If it
-is absent in the request, the `defaultValue` of `World` is used.
+`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is implicitly not `required` because of the use of the `defaultValue` attribute. If it is absent in the request, the `defaultValue` of `World` is used.
 
 Because the `@RestController` annotation is present on the class, an implicit
 {ResponseBody}[`@ResponseBody`] annotation is added to the `greeting` method. This causes
