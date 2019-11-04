@@ -15,9 +15,9 @@
 :source-highlighter: prettify
 :project_id: gs-rest-hateoas
 
-This guide walks you through the process of creating a "hello world" link:/understanding/HATEOAS[Hypermedia Driven REST web service] with Spring.
+This guide walks you through the process of creating a "hello world" https://en.wikipedia.org/wiki/HATEOAS[Hypermedia Driven REST web service] with Spring.
 
-{wikipedia-hateoas}[Hypermedia] is an important aspect of link:/understanding/REST[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service.
+{wikipedia-hateoas}[Hypermedia] is an important aspect of https://en.wikipedia.org/wiki/Representational_state_transfer[REST]. It allows you to build services that decouple client and server to a large extent and allow them to evolve independently. The representations returned for REST resources contain not only data, but links to related resources. Thus the design of the representations is crucial to the design of the overall service.
 
 == What you'll build
 
@@ -27,7 +27,7 @@ The service will accept HTTP GET requests at:
 
     http://localhost:8080/greeting
 
-and respond with a link:/understanding/JSON[JSON] representation of a greeting enriched with the simplest possible hypermedia element, a link pointing to the resource itself:
+and respond with a https://json.org/[JSON] representation of a greeting enriched with the simplest possible hypermedia element, a link pointing to the resource itself:
 
 [source,javascript]
 ----
@@ -109,7 +109,7 @@ So you simply create a plain old java object extending `ResourceSupport` and add
 include::complete/src/main/java/hello/Greeting.java[]
 ----
 
-* @JsonCreator - signal on how Jackson can create an instance of this link:/understanding/POJO[POJO]
+* @JsonCreator - signal on how Jackson can create an instance of this https://en.wikipedia.org/wiki/Plain_old_Java_object[POJO]
 * @JsonProperty - clearly marks what field Jackson should put this constructor argument into
 
 NOTE: As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
@@ -146,7 +146,7 @@ The call to `withSelfRel()` creates a `Link` instance that you add to the `Greet
 
 == Make the application executable
 
-Although it is possible to package this service as a traditional _web application archive_ or link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+Although it is possible to package this service as a traditional _web application archive_ or https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the https://tomcat.apache.org/[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
 
 `src/main/java/hello/Application.java`
