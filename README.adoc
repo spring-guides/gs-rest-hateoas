@@ -29,7 +29,7 @@ The service will accept HTTP GET requests at:
 
 and respond with a https://json.org/[JSON] representation of a greeting enriched with the simplest possible hypermedia element, a link pointing to the resource itself:
 
-[source,javascript]
+[source,java,tabsize=2script]
 ----
 {
   "content":"Hello, World!",
@@ -47,7 +47,7 @@ The response already indicates you can customize the greeting with an optional `
 
 The `name` parameter value overrides the default value of "World" and is reflected in the response:
 
-[source,javascript]
+[source,java,tabsize=2script]
 ----
 {
   "content":"Hello, User!",
@@ -85,7 +85,7 @@ The service will expose a resource at `/greeting` to handle `GET` requests, opti
 
 Beyond that, the JSON representation of the resource will be enriched with a list of hypermedia elements in a `_links` property. The most rudimentary form of this is a link pointing to the resource itself. So the representation should look something like this:
 
-[source,javascript]
+[source,java,tabsize=2script]
 ----
 {
   "content":"Hello, World!",
@@ -104,7 +104,7 @@ To model the greeting representation, you create a resource representation class
 So you simply create a plain old java object extending `ResourceSupport` and add the field and accessor for the content as well as a constructor:
 
 `src/main/java/hello/Greeting.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Greeting.java[]
 ----
@@ -122,7 +122,7 @@ Next you create the resource controller that will serve these greetings.
 In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. The components are easily identified by the {RestController}[`@RestController`] annotation, which combines the {Controller}[`@Controller`] and {ResponseBody}[`@ResponseBody`] annotations. The `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
 `src/main/java/hello/GreetingController.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/GreetingController.java[]
 ----
@@ -150,7 +150,7 @@ Although it is possible to package this service as a traditional _web applicatio
 
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
@@ -168,7 +168,7 @@ Logging output is displayed. The service should be up and running within a few s
 
 Now that the service is up, visit http://localhost:8080/greeting, where you see:
 
-[source,javascript]
+[source,java,tabsize=2script]
 ----
 {
   "content":"Hello, World!",
@@ -182,7 +182,7 @@ Now that the service is up, visit http://localhost:8080/greeting, where you see:
 
 Provide a `name` query string parameter with http://localhost:8080/greeting?name=User. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello, User!" and the `href` attribute of the `self` link reflects that change as well:
 
-[source,javascript]
+[source,java,tabsize=2script]
 ----
 {
   "content":"Hello, User!",
