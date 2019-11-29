@@ -1,11 +1,11 @@
 package hello;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Greeting extends ResourceSupport {
+public class Greeting extends RepresentationModel {
 
 	private final String content;
 

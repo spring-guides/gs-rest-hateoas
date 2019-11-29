@@ -1,6 +1,6 @@
 package hello;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
