@@ -200,10 +200,10 @@ attribute pointing to the resource that was accessed).
 
 To model the greeting representation, create a resource representation class. As the
 `_links` property is a fundamental property of the representation model, Spring HATEOAS
-ships with a base class (called `ResourceSupport`) that lets you add instances of `Link`
+ships with a base class (called `RepresentationModel`) that lets you add instances of `Link`
 and ensures that they are rendered as shown earlier.
 
-Create a plain old java object that extends `ResourceSupport` and adds the field and
+Create a plain old java object that extends `RepresentationModel` and adds the field and
 accessor for the content as well as a constructor, as the following listing (from
 `src/main/java/com/example/resthateoas/Greeting.java`) shows:
 
