@@ -1,9 +1,12 @@
 :spring_version: current
-:spring_boot_version: 2.3.2.RELEASE
+:spring_boot_version: 2.4.1
+:wikipedia-hal: https://en.wikipedia.org/wiki/Hypertext_Application_Language#:~:text=HAL%20was%20created,%20HAL%2E
+:jayway: https://github.com/json-path/JsonPath
 :Component: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :jackson: https://wiki.fasterxml.com/JacksonHome
 :Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
 :RestController: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestController.html
+:x-forwarded-headers: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#Proxies
 :DispatcherServlet: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :ResponseBody: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
@@ -26,10 +29,12 @@ overall service.
 
 == What You Will Build
 
-You will build a hypermedia-driven REST service with Spring HATEOAS: a library of APIs
+:hateoas-abbr: pass:[<abbr title="Hypermedia As The Engine Of Application State">HATEOAS</abbr>]
+
+You will build a hypermedia-driven REST service with Spring {hateoas-abbr}: a library of APIs
 that you can use to create links that point to Spring MVC controllers, build up resource
 representations, and control how they are rendered into supported hypermedia formats (such
-as HAL).
+as {wikipedia-hal}[HAL]).
 
 The service will accept HTTP GET requests at `http://localhost:8080/greeting`.
 
@@ -65,7 +70,7 @@ The `name` parameter value overrides the default value of `World` and is reflect
 response, as the following listing shows:
 
 ====
-[source,javascript]
+[source,javascript,highlight=4]
 ----
 {
   "content":"Hello, User!",
@@ -114,49 +119,8 @@ include::initial/build.gradle[]
 === Adding a JSON Library
 
 Because you will use JSON to send and receive information, you need a JSON library. In
-this guide, you will use the Jayway JsonPath library.
-
-To include the library in a Maven build, add the following dependency to your `pom.xml`
-file:
-
-====
-[source,xml]
-----
-<dependency>
-  <groupId>com.jayway.jsonpath</groupId>
-  <artifactId>json-path</artifactId>
-  <scope>test</scope>
-</dependency>
-----
-====
-
-The following listing shows the finished `pom.xml` file:
-
-====
-[source,xml]
-----
-include::complete/pom.xml[]
-----
-====
-
-To include the libary in a Gradle build, add the following dependency to your
-`build.gradle` file:
-
-====
-[source,text]
-----
-testCompile 'com.jayway.jsonpath:json-path'
-----
-====
-
-The following listing shows the finished `build.gradle` file:
-
-====
-[source,text]
-----
-include::complete/build.gradle[]
-----
-====
+this guide, you will use the {jayway}[Jayway JsonPath] library; it's already included as a 
+dependency for you by the `spring-boot-starter-test` dependency.
 
 [[initial]]
 == Create a Resource Representation Class
@@ -208,8 +172,8 @@ include::complete/src/main/java/com/example/resthateoas/Greeting.java[]
 ----
 ====
 
-* @JsonCreator: Signals how Jackson can create an instance of this POJO.
-* @JsonProperty: Marks the field into which Jackson should put this constructor argument.
+* `@JsonCreator`: Signals how Jackson can create an instance of this POJO.
+* `@JsonProperty`: Marks the field into which Jackson should put this constructor argument.
 
 NOTE: As you will see in later in this guide, Spring will use the Jackson JSON library to
 automatically marshal instances of type `Greeting` into JSON.
@@ -245,7 +209,7 @@ NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, 
 Because the `@RestController` annotation is present on the class, an implicit
 {ResponseBody}[`@ResponseBody`] annotation is added to the `greeting` method. This causes
 Spring MVC to render the returned `HttpEntity` and its payload (the `Greeting`) directly
-to the response.
+to the response—as opposed to treating it like a page and wrapping it in HTML.
 
 The most interesting part of the method implementation is how you create the link that
 points to the controller method and how you add it to the representation model. Both
@@ -254,12 +218,22 @@ fake a method invocation on the controller. The returned `LinkBuilder` will have
 the controller method's mapping annotation to build up exactly the URI to which the method
 is mapped.
 
-NOTE: Spring HATEOAS respects various `X-FORWARDED-` headers. If you put a Spring HATEOAS
+NOTE: Spring HATEOAS respects various {x-forwarded-headers}[`X-FORWARDED-` headers]. If you put a Spring HATEOAS
 service behind a proxy and properly configure it with `X-FORWARDED-HOST` headers, the
 resulting links will be properly formatted.
 
 The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting`
 representation model.
+
+---
+
+We're practically ready to run the application. Here's the code and some explanation for the main starting point of the app.
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/resthateoas/RestHateoasApplication.java[]
+----
+====
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
 
@@ -315,7 +289,13 @@ always be explicitly overridden through the query string.
 == Summary
 
 Congratulations! You have just developed a hypermedia-driven RESTful web service with
-Spring HATEOAS.
+Spring HATEOAS. 
+
+For a more in-depth look at Spring HATEOAS, check out
+
+*  the https://spring.io/guides/tutorials/rest/[Building REST services with Spring] guide or 
+* the short talk https://www.youtube.com/watch?v=nVEmfmdDUXU[Building Flexible APIs with Spring HATEOAS] from SpringOne 2020 or
+* the https://spring.io/projects/spring-hateoas#samples[Spring HATEOAS Project page].
 
 == See Also
 
