@@ -118,7 +118,8 @@ include::initial/build.gradle[]
 === Adding a JSON Library
 
 Because you will use JSON to send and receive information, you need a JSON library. In
-this guide, you will use the {jayway}[Jayway JsonPath] library; it's already included as a dependency for you by the `spring-boot-starter-test` dependency.
+this guide, you will use the {jayway}[Jayway JsonPath] library; it's already included as a 
+dependency for you by the `spring-boot-starter-test` dependency.
 
 [[initial]]
 == Create a Resource Representation Class
@@ -170,8 +171,8 @@ include::complete/src/main/java/com/example/resthateoas/Greeting.java[]
 ----
 ====
 
-* @JsonCreator: Signals how Jackson can create an instance of this POJO.
-* @JsonProperty: Marks the field into which Jackson should put this constructor argument.
+* `@JsonCreator`: Signals how Jackson can create an instance of this POJO.
+* `@JsonProperty`: Marks the field into which Jackson should put this constructor argument.
 
 NOTE: As you will see in later in this guide, Spring will use the Jackson JSON library to
 automatically marshal instances of type `Greeting` into JSON.
