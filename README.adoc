@@ -1,6 +1,7 @@
 :spring_version: current
 :spring_boot_version: 2.4.1
 :wikipedia-hal: https://en.wikipedia.org/wiki/Hypertext_Application_Language#:~:text=HAL%20was%20created,%20HAL%2E
+:jayway: https://github.com/json-path/JsonPath
 :Component: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :jackson: https://wiki.fasterxml.com/JacksonHome
 :Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
@@ -117,49 +118,7 @@ include::initial/build.gradle[]
 === Adding a JSON Library
 
 Because you will use JSON to send and receive information, you need a JSON library. In
-this guide, you will use the Jayway JsonPath library.
-
-To include the library in a Maven build, add the following dependency to your `pom.xml`
-file:
-
-====
-[source,xml]
-----
-<dependency>
-  <groupId>com.jayway.jsonpath</groupId>
-  <artifactId>json-path</artifactId>
-  <scope>test</scope>
-</dependency>
-----
-====
-
-The following listing shows the finished `pom.xml` file:
-
-====
-[source,xml]
-----
-include::complete/pom.xml[]
-----
-====
-
-To include the libary in a Gradle build, add the following dependency to your
-`build.gradle` file:
-
-====
-[source,text]
-----
-testCompile 'com.jayway.jsonpath:json-path'
-----
-====
-
-The following listing shows the finished `build.gradle` file:
-
-====
-[source,text]
-----
-include::complete/build.gradle[]
-----
-====
+this guide, you will use the {jayway}[Jayway JsonPath] library; it's already included as a dependency for you by the `spring-boot-starter-test` dependency.
 
 [[initial]]
 == Create a Resource Representation Class
