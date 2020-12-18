@@ -6,6 +6,7 @@
 :jackson: https://wiki.fasterxml.com/JacksonHome
 :Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
 :RestController: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestController.html
+:x-forwarded-headers: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#Proxies
 :DispatcherServlet: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :ResponseBody: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
@@ -217,12 +218,22 @@ fake a method invocation on the controller. The returned `LinkBuilder` will have
 the controller method's mapping annotation to build up exactly the URI to which the method
 is mapped.
 
-NOTE: Spring HATEOAS respects various `X-FORWARDED-` headers. If you put a Spring HATEOAS
+NOTE: Spring HATEOAS respects various {x-forwarded-headers}[`X-FORWARDED-` headers]. If you put a Spring HATEOAS
 service behind a proxy and properly configure it with `X-FORWARDED-HOST` headers, the
 resulting links will be properly formatted.
 
 The call to `withSelfRel()` creates a `Link` instance that you add to the `Greeting`
 representation model.
+
+---
+
+We're practically ready to run the application. Here's the code and some explanation for the main starting point of the app.
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/resthateoas/RestHateoasApplication.java[]
+----
+====
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
 
