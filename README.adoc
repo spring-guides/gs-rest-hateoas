@@ -289,7 +289,13 @@ always be explicitly overridden through the query string.
 == Summary
 
 Congratulations! You have just developed a hypermedia-driven RESTful web service with
-Spring HATEOAS.
+Spring HATEOAS. 
+
+For a more in-depth look at Spring HATEOAS, check out
+
+*  the https://spring.io/guides/tutorials/rest/[Building REST services with Spring] guide or 
+* the short talk https://www.youtube.com/watch?v=nVEmfmdDUXU[Building Flexible APIs with Spring HATEOAS] from SpringOne 2020 or
+* the https://spring.io/projects/spring-hateoas#samples[Spring HATEOAS Project page].
 
 == See Also
 
