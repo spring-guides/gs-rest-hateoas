@@ -1,5 +1,6 @@
 :spring_version: current
-:spring_boot_version: 2.3.2.RELEASE
+:spring_boot_version: 2.4.1
+:wikipedia-hal: https://en.wikipedia.org/wiki/Hypertext_Application_Language#:~:text=HAL%20was%20created,%20HAL%2E
 :Component: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :jackson: https://wiki.fasterxml.com/JacksonHome
 :Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
@@ -26,10 +27,12 @@ overall service.
 
 == What You Will Build
 
-You will build a hypermedia-driven REST service with Spring HATEOAS: a library of APIs
+:hateoas-abbr: pass:[<abbr title="Hypermedia As The Engine Of Application State">HATEOAS</abbr>]
+
+You will build a hypermedia-driven REST service with Spring {hateoas-abbr}: a library of APIs
 that you can use to create links that point to Spring MVC controllers, build up resource
 representations, and control how they are rendered into supported hypermedia formats (such
-as HAL).
+as {wikipedia-hal}[HAL]).
 
 The service will accept HTTP GET requests at `http://localhost:8080/greeting`.
 
@@ -65,7 +68,7 @@ The `name` parameter value overrides the default value of `World` and is reflect
 response, as the following listing shows:
 
 ====
-[source,javascript]
+[source,javascript,highlight=4]
 ----
 {
   "content":"Hello, User!",
