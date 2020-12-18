@@ -208,7 +208,7 @@ NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, 
 Because the `@RestController` annotation is present on the class, an implicit
 {ResponseBody}[`@ResponseBody`] annotation is added to the `greeting` method. This causes
 Spring MVC to render the returned `HttpEntity` and its payload (the `Greeting`) directly
-to the response.
+to the response—as opposed to treating it like a page and wrapping it in HTML.
 
 The most interesting part of the method implementation is how you create the link that
 points to the controller method and how you add it to the representation model. Both
