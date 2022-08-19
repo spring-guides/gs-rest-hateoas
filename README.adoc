@@ -228,7 +228,7 @@ to the response.
 
 The most interesting part of the method implementation is how you create the link that
 points to the controller method and how you add it to the representation model. Both
-`linkTo(…)` and `methodOn(…)` are static methods on `ControllerLinkBuilder` that let you
+`linkTo(…)` and `methodOn(…)` are static methods on `WebMvcLinkBuilder` that let you
 fake a method invocation on the controller. The returned `LinkBuilder` will have inspected
 the controller method's mapping annotation to build up exactly the URI to which the method
 is mapped.
