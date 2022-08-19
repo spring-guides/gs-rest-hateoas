@@ -106,21 +106,8 @@ NOTE: You can also fork the project from Github and open it in your IDE or other
 === Adding a JSON Library
 
 Because you will use JSON to send and receive information, you need a JSON library. In
-this guide, you will use the Jayway JsonPath library.
+this guide, you will use the Jayway JsonPath library, that already comes with Spring HateOAS.
 
-To include the library in a Maven build, add the following dependency to your `pom.xml`
-file:
-
-====
-[source,xml]
-----
-<dependency>
-  <groupId>com.jayway.jsonpath</groupId>
-  <artifactId>json-path</artifactId>
-  <scope>test</scope>
-</dependency>
-----
-====
 
 The following listing shows the finished `pom.xml` file:
 
