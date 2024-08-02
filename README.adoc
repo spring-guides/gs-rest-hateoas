@@ -126,7 +126,7 @@ listing:
 ====
 
 The `content` is the textual representation of the greeting. The `_links` element contains
-a list of links (in this case, exactly one with the relation type of `rel` and the `href`
+a list of links (in this case, exactly one with the relation type of `self` and the `href`
 attribute pointing to the resource that was accessed).
 
 To model the greeting representation, create a resource representation class. As the
